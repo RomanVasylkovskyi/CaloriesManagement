@@ -20,5 +20,40 @@ namespace CaloriesManagement
         {
             InitializeComponent();
         }
+        private void AddDishCalButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddDish dishWindow = new AddDish();
+
+            dishWindow.Show();
+
+            this.Close();
+        }
+
+        private void CalckCalButton_Click(object sender, RoutedEventArgs e)
+        {
+            CalcCal CalcWindow = new CalcCal();
+
+            CalcWindow.Show();
+
+            this.Close();
+        }
+
+        private void AddProdCalButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddProd prodWindow = new AddProd();
+
+            prodWindow.Show();
+
+            this.Close();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            InfoCal InfoCalWindow = new InfoCal();
+
+            InfoCalWindow.Show();
+
+            this.Close();
+        }
     }
 }

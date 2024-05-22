@@ -1,0 +1,36 @@
+﻿<Window x:Class="CaloriesManagement.CalcCal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CaloriesManagement"
+        mc:Ignorable="d"
+        Title="CalcCal" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="145*"/>
+            <RowDefinition Height="89*"/>
+            <RowDefinition Height="200*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="147*"></ColumnDefinition>
+            <ColumnDefinition Width="120*"></ColumnDefinition>
+            <ColumnDefinition Width="133*"></ColumnDefinition>
+            <ColumnDefinition Width="133*"></ColumnDefinition>
+            <ColumnDefinition Width="133*"></ColumnDefinition>
+            <ColumnDefinition Width="133*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="1" Content="Розрахунок калорій" FontSize="35" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="413" Margin="97,0,0,0" RenderTransformOrigin="0.401,0.691" Grid.ColumnSpan="4" Height="57"/>
+
+        <Button Grid.Column="2" Content="Розрахувати кількість калорій" Click="CalcCalButton_Click" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Width="175" Height="29" Grid.ColumnSpan="2"/>
+        <Button Content="Повернутись в меню" Click="backMenuButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Width="127" Height="28" RenderTransformOrigin="0.331,0.58"/>
+
+        <Label Grid.Column="2" Content="Оберіть вашу мету:" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" RenderTransformOrigin="0.407,0.602" Height="26" Width="123"/>
+        <StackPanel HorizontalAlignment="Center" Grid.Column="3" Grid.Row="1" Margin="0,18,0,16" Width="114" >
+            <RadioButton Content="Зменшення ваги" GroupName="Goal" Checked="RadioCalButton_Checked"/>
+            <RadioButton Content="Збільшення ваги" GroupName="Goal" Checked="RadioCalButton_Checked"/>
+            <RadioButton Content="Збереження ваги" GroupName="Goal" Checked="RadioCalButton_Checked"/>
+        </StackPanel>
+    </Grid>
+</Window>

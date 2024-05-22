@@ -1,0 +1,47 @@
+﻿<Window x:Class="CaloriesManagement.AddProd"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CaloriesManagement"
+        mc:Ignorable="d"
+        Title="AddProd" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="29*"></RowDefinition>
+            <RowDefinition Height="36*"></RowDefinition>
+            <RowDefinition Height="22*"></RowDefinition>
+            <RowDefinition Height="29*"></RowDefinition>
+            <RowDefinition Height="29*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="147*"></ColumnDefinition>
+            <ColumnDefinition Width="120*"></ColumnDefinition>
+            <ColumnDefinition Width="133*"></ColumnDefinition>
+            <ColumnDefinition Width="133*"></ColumnDefinition>
+            <ColumnDefinition Width="133*"></ColumnDefinition>
+            <ColumnDefinition Width="133*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="1" Content="Інформація про продукт" FontSize="35" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="413" Margin="47,0,0,0" RenderTransformOrigin="0.401,0.691" Grid.ColumnSpan="4" Height="57"/>
+        <Label Content="Введіть назву продукту:" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="142" RenderTransformOrigin="0.272,0.456" Grid.ColumnSpan="2" Margin="115,0,0,0" Height="26"/>
+        <Label Content="Введіть вагу продукту:" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center" Margin="123,0,0,0" Width="134" Grid.ColumnSpan="2" Height="26"/>
+        <TextBox x:Name="NameProd" Grid.Column="2" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Center" Width="210" Grid.ColumnSpan="2" Height="18"/>
+        <TextBox x:Name="WeightProd" Grid.Column="2" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Center" Width="210" Grid.ColumnSpan="2" Height="18"/>
+
+        <Label Content="Введіть кількість калорій:" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center" Margin="109,0,0,0" Grid.ColumnSpan="2" Height="26" Width="148"/>
+        <TextBox x:Name="CalProd" Grid.Column="2" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3" TextWrapping="Wrap"  VerticalAlignment="Center" Width="210" Grid.ColumnSpan="2" Height="18"/>
+        <Button Grid.Column="2" Content="Додати продукт в список" Click="AddProdCalDBButton_Click" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" Width="160" Height="29" Grid.ColumnSpan="2"/>
+        <Button Content="Повернутись в меню" Click="backMenuButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Width="127" Height="28" RenderTransformOrigin="0.331,0.58"/>
+
+        <Label Grid.Column="4" Content="Оберіть категорію:" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" RenderTransformOrigin="0.407,0.602" Height="26" Width="114"/>
+        <StackPanel Grid.Column="5" Grid.Row="1" Margin="0,0,0,3" >
+            <RadioButton Content="Молочка" GroupName="Category" Checked="RadioButton_Checked"/>
+            <RadioButton Content="М'ясо" GroupName="Category" Checked="RadioButton_Checked"/>
+            <RadioButton Content="Риба" GroupName="Category" Checked="RadioButton_Checked"/>
+            <RadioButton Content="Овочі" GroupName="Category" Checked="RadioButton_Checked"/>
+            <RadioButton Content="Фрукти" GroupName="Category" Checked="RadioButton_Checked"/>
+            <RadioButton Content="Горіхи" GroupName="Category" Checked="RadioButton_Checked"/>
+            <RadioButton Content="Крупи" GroupName="Category" Checked="RadioButton_Checked"/>
+        </StackPanel>
+    </Grid>
+</Window>
