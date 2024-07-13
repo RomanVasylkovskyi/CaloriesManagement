@@ -5,8 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaloriesManagement"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="750" Width="450" ResizeMode="NoResize">
 
+    <Grid>
+        <Image HorizontalAlignment="Center" Height="250" VerticalAlignment="Top" Width="250" Source="/unknown.png" Margin="0,50,0,0"/>
+        <Label Content="Label" HorizontalAlignment="Left" Margin="50,500,0,0" VerticalAlignment="Top" Height="36" Width="150" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Label Content="Label" HorizontalAlignment="Left" Margin="250,500,0,0" VerticalAlignment="Top" Height="36" Width="150" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Label Content="Label" HorizontalAlignment="Left" Margin="50,550,0,0" VerticalAlignment="Top" Height="36" Width="150" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Label Content="Label" HorizontalAlignment="Left" Margin="250,550,0,0" VerticalAlignment="Top" Height="36" Width="150" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Button Content="Button" HorizontalAlignment="Left" Height="51" Margin="22.5,650,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Button" HorizontalAlignment="Left" Height="51" Margin="165.5,650,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Button" HorizontalAlignment="Left" Height="51" Margin="307.5,650,0,0" VerticalAlignment="Top" Width="120"/>
+ 
     </Grid>
 </Window>
