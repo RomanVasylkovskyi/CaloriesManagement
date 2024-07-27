@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace CaloriesManagement
@@ -22,7 +25,13 @@ namespace CaloriesManagement
             InitializeComponent();
             _database = new Database(Database.DBPath);
             refreshInfo();
-           
+            try {
+                string relativePath = "man.png";
+                UserImg.Source = new BitmapImage(new Uri($"pack://application:,,,/{relativePath}", UriKind.Absolute));
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         public void refreshInfo()
@@ -33,15 +42,6 @@ namespace CaloriesManagement
             Age.Content = _user.Age;
             WeightLabel.Content = _user.Weight;
             HeightLabel.Content = _user.Height;
-
-            string[] files = Directory.GetFiles("../img/");
-            string text = "";
-            foreach (string file in files)
-            {
-               text += $"{file}\n";
-            }
-            MessageBox.Show(text);
-
             try
             {
                 string imagePath = _user.Gender == 0 ? "../img/man.png" : "../img/man.png";
@@ -61,9 +61,10 @@ namespace CaloriesManagement
             //MessageBox.Show(_user.ToString(), "User Info");
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void SettingsMenu(object sender, RoutedEventArgs e)
         {
             Settings settings = new Settings();
+            settings.Closed += (s, args) => refreshInfo();
             settings.ShowDialog();
         }
     }

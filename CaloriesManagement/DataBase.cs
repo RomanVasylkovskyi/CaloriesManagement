@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
+using System.Windows;
 
 namespace CaloriesManagement
 {
@@ -155,10 +156,35 @@ namespace CaloriesManagement
                 double height = Convert.ToDouble(row["Height"]);
                 int gender = Convert.ToInt32(row["Sex"]);
 
-                return new User(name, age, weight, height, gender);
+                return new User(userId,name, age, weight, height, gender);
             }
 
             return null;
+        }
+
+
+        public void SaveUser(User user)
+        {
+            string query;
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@Name", user.Name },
+                { "@Age", user.Age },
+                { "@Weight", user.Weight },
+                { "@Height", user.Height },
+                { "@Sex", user.Gender },
+                { "@Id", user.Id }
+            };
+            try
+            {
+                query = @"UPDATE Users SET Name = @Name, Age = @Age, Weight = @Weight, Height = @Height, Sex = @Sex WHERE Id = @Id";
+                ExecuteNonQuery(query, parameters);
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+           
         }
 
 

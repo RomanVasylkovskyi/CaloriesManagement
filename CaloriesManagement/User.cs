@@ -8,6 +8,7 @@ namespace CaloriesManagement
 {
     public class User
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
         public double Weight { get; set; }
@@ -16,8 +17,9 @@ namespace CaloriesManagement
 
         public User() { }
 
-        public User(string name, int age, double weight, double height, int gender)
+        public User(int id, string name, int age, double weight, double height, int gender)
         {
+            Id = id;
             Name = name;
             Age = age;
             Weight = weight;
@@ -27,7 +29,7 @@ namespace CaloriesManagement
 
         public double CalculateBMR()
         {
-            if (Gender==1)
+            if (Gender == 1)
             {
                 return 88.36 + (13.4 * Weight) + (4.8 * Height) - (5.7 * Age);
             }
@@ -39,7 +41,8 @@ namespace CaloriesManagement
 
         public override string ToString()
         {
-            return $"Ім'я: {Name}\n" +
+            return $"Id: {Id}\n" +
+                   $"Ім'я: {Name}\n" +
                    $"Вік: {Age} років\n" +
                    $"Вага: {Weight:F1} кг\n" +
                    $"Зріст: {Height:F1} см\n" +
