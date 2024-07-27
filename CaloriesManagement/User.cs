@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace CaloriesManagement
 {
-    class User
+    public class User
     {
         public string Name { get; set; }
         public int Age { get; set; }
         public double Weight { get; set; }
         public double Height { get; set; }
-        public string Gender { get; set; }
+        public int Gender { get; set; }
 
-        public User(string name, int age, double weight, double height, string gender)
+        public User() { }
+
+        public User(string name, int age, double weight, double height, int gender)
         {
             Name = name;
             Age = age;
@@ -25,7 +27,7 @@ namespace CaloriesManagement
 
         public double CalculateBMR()
         {
-            if (Gender.ToLower() == "male")
+            if (Gender==1)
             {
                 return 88.36 + (13.4 * Weight) + (4.8 * Height) - (5.7 * Age);
             }
@@ -33,6 +35,16 @@ namespace CaloriesManagement
             {
                 return 447.6 + (9.2 * Weight) + (3.1 * Height) - (4.3 * Age);
             }
+        }
+
+        public override string ToString()
+        {
+            return $"Ім'я: {Name}\n" +
+                   $"Вік: {Age} років\n" +
+                   $"Вага: {Weight:F1} кг\n" +
+                   $"Зріст: {Height:F1} см\n" +
+                   $"Стать: {(Gender == 1 ? "Чоловіча" : "Жіноча")}\n" +
+                   $"BMR: {CalculateBMR():F2} калорій";
         }
     }
 }
