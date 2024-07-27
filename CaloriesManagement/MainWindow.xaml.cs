@@ -25,13 +25,6 @@ namespace CaloriesManagement
             InitializeComponent();
             _database = new Database(Database.DBPath);
             refreshInfo();
-            try {
-                string relativePath = "man.png";
-                UserImg.Source = new BitmapImage(new Uri($"pack://application:,,,/{relativePath}", UriKind.Absolute));
-            }
-            catch (Exception ex) {
-                MessageBox.Show(ex.ToString());
-            }
         }
 
         public void refreshInfo()
@@ -44,20 +37,30 @@ namespace CaloriesManagement
             HeightLabel.Content = _user.Height;
             try
             {
-                string imagePath = _user.Gender == 0 ? "../img/man.png" : "../img/man.png";
-                Uri imageUri = new Uri(imagePath, UriKind.Relative);
-                BitmapImage bitmapImage = new BitmapImage();
-
-                bitmapImage.BeginInit();
-                bitmapImage.UriSource = imageUri;
-                bitmapImage.EndInit();
-
-                UserImg.Source = bitmapImage;
+                try
+                {
+                    string imagePath = "";
+                    if (_user.Gender == 0)
+                    {
+                        imagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "img", "woman.png");
+                    }
+                    else { 
+                        imagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "img", "man.png");
+                    }
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        UserImg.Source = new BitmapImage(new Uri(imagePath, UriKind.Absolute));
+                    }
+                    else
+                    {
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
             }
-            catch (Exception ex)
-            {
-              
-            }
+            catch (Exception ex){ }
             //MessageBox.Show(_user.ToString(), "User Info");
         }
 

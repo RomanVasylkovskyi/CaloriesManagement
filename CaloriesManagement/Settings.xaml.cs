@@ -43,18 +43,13 @@ namespace CaloriesManagement
         private void SetWomen(object sender, RoutedEventArgs e)
         {
             _user.Gender = 0;
+            LoadImg();
         }
 
         private void SetMan(object sender, RoutedEventArgs e)
         {
             _user.Gender = 1;
-            string path = "pack://application:,,,/img/";
-            string text = "";
-            string[] files = Directory.GetFileSystemEntries(path);
-            foreach (string file in files) { text += $"{file}\n"; }
-            MessageBox.Show(text);
-            //ImageSource imageSource = new BitmapImage(new Uri(path));
-            //UserImg.Source = imageSource;
+            LoadImg();
         }
 
         private void Save(object sender, RoutedEventArgs e)
@@ -95,6 +90,36 @@ namespace CaloriesManagement
             {
                 MessageBox.Show(errorMessage, "Помилка введення даних", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void LoadImg() {
+            try
+            {
+                try
+                {
+                    string imagePath = "";
+                    if (_user.Gender == 0)
+                    {
+                        imagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "img", "woman.png");
+                    }
+                    else
+                    {
+                        imagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "img", "man.png");
+                    }
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        UserImg.Source = new BitmapImage(new Uri(imagePath, UriKind.Absolute));
+                    }
+                    else
+                    {
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+            catch (Exception ex) { }
         }
 
         private void Cancel(object sender, RoutedEventArgs e)
