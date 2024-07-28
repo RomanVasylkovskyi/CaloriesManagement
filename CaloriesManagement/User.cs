@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace CaloriesManagement
 {
@@ -27,16 +28,40 @@ namespace CaloriesManagement
             Gender = gender;
         }
 
-        public double CalculateBMR()
+        public double CalculateBMI()
         {
-            if (Gender == 1)
-            {
-                return 88.36 + (13.4 * Weight) + (4.8 * Height) - (5.7 * Age);
-            }
-            else
-            {
-                return 447.6 + (9.2 * Weight) + (3.1 * Height) - (4.3 * Age);
-            }
+            return Weight / (Height * Height);
+        }
+
+        public double ScaleBMI()
+        {
+            double bmi = CalculateBMI();
+            return 10000 * ((bmi - 0) / (40 - 0) * (100 - 0) + 0);
+        }
+
+        public string GetBMICategory()
+        {
+            double bmi = ScaleBMI();
+            if (bmi < 35)
+                return "Underweight";
+            if (bmi < 60)
+                return "Normal weight";
+            if (bmi < 75)
+                return "Overweight";
+            return "Obese";
+        }
+
+
+        public Color GetColorForBMI()
+        {
+            double bmi = ScaleBMI();
+            if (bmi < 35)
+                return Colors.Blue;
+            if (bmi < 60)
+                return Colors.Green;
+            if (bmi < 75)
+                return Colors.Orange;
+            return Colors.Red;
         }
 
         public override string ToString()
@@ -47,7 +72,7 @@ namespace CaloriesManagement
                    $"Вага: {Weight:F1} кг\n" +
                    $"Зріст: {Height:F1} см\n" +
                    $"Стать: {(Gender == 1 ? "Чоловіча" : "Жіноча")}\n" +
-                   $"BMR: {CalculateBMR():F2} калорій";
+                   $"BMR: {CalculateBMI():F2} калорій";
         }
     }
 }

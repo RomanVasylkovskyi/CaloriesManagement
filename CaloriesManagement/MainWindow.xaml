@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="750" Width="450" ResizeMode="NoResize">
 
-
     <Grid>
-        <Image Name="UserImg"  HorizontalAlignment="Center" Height="250" VerticalAlignment="Top" Width="250" Source="unknown.png" Margin="0,50,0,0"/>
-        <Label Name="NameLabel" Content="Label" HorizontalAlignment="Left" Margin="50,500,0,0" VerticalAlignment="Top" Height="36" Width="150" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center">
+        <Image x:Name="UserImg"  HorizontalAlignment="Center" Height="250" VerticalAlignment="Top" Width="250" Source="unknown.png" Margin="0,50,0,0"/>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="60,502,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="NameLabel" Content="Label" HorizontalAlignment="Left" Margin="100,500,0,0" VerticalAlignment="Top" Height="36" Width="100" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Background="#FFDEDEDE">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -20,7 +20,8 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label Name="HeightLabel" Content="Label" HorizontalAlignment="Left" Margin="250,500,0,0" VerticalAlignment="Top" Height="36" Width="150" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center">
+        <Label Content="Height:" HorizontalAlignment="Left" Margin="256,505,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="HeightLabel" Content="Label" HorizontalAlignment="Left" Margin="300,500,0,0" VerticalAlignment="Top" Height="36" Width="100" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Background="#FFDEDEDE">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -30,7 +31,8 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label Name="Age" Content="Label" HorizontalAlignment="Left" Margin="50,550,0,0" VerticalAlignment="Top" Height="36" Width="150" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center">
+        <Label Content="Age:" HorizontalAlignment="Left" Margin="71,555,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Age" Content="Label" HorizontalAlignment="Left" Margin="100,550,0,0" VerticalAlignment="Top" Height="36" Width="100" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Background="#FFDEDEDE">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -40,7 +42,19 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label Name="WeightLabel" Content="Label" HorizontalAlignment="Left" Margin="250,550,0,0" VerticalAlignment="Top" Height="36" Width="150" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center">
+        <Label Content="Weight:" HorizontalAlignment="Left" Margin="255,555,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="WeightLabel" Content="Label" HorizontalAlignment="Left" Margin="300,550,0,0" VerticalAlignment="Top" Height="36" Width="100" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center" Background="#FFDEDEDE">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <ProgressBar x:Name="ProgressBarElement" HorizontalAlignment="Center" Height="32" Margin="0,408,0,0" VerticalAlignment="Top" Width="350"/>
+        <Label x:Name="ProgressBarText" Content="Label" HorizontalAlignment="Center" Margin="0,445,0,0" VerticalAlignment="Top" Height="31" Width="200" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -53,7 +67,5 @@
         <Button Content="Settings" HorizontalAlignment="Left" Height="51" Margin="22.5,650,0,0" VerticalAlignment="Top" Width="120" Click="SettingsMenu"/>
         <Button Content="Button" HorizontalAlignment="Left" Height="51" Margin="165.5,650,0,0" VerticalAlignment="Top" Width="120"/>
         <Button Content="Button" HorizontalAlignment="Left" Height="51" Margin="307.5,650,0,0" VerticalAlignment="Top" Width="120"/>
-        <ProgressBar HorizontalAlignment="Center" Height="32" Margin="0,408,0,0" VerticalAlignment="Top" Width="350"/>
-
     </Grid>
 </Window>

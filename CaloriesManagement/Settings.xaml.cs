@@ -38,6 +38,7 @@ namespace CaloriesManagement
             AgeText.Text = _user.Age.ToString();
             WeightText.Text = _user.Weight.ToString();
             HeightText.Text = _user.Height.ToString();
+            LoadImg();
         }
 
         private void SetWomen(object sender, RoutedEventArgs e)
@@ -95,31 +96,18 @@ namespace CaloriesManagement
         private void LoadImg() {
             try
             {
-                try
+                if (_user.Gender == 0)
                 {
-                    string imagePath = "";
-                    if (_user.Gender == 0)
-                    {
-                        imagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "img", "woman.png");
-                    }
-                    else
-                    {
-                        imagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "img", "man.png");
-                    }
-                    if (System.IO.File.Exists(imagePath))
-                    {
-                        UserImg.Source = new BitmapImage(new Uri(imagePath, UriKind.Absolute));
-                    }
-                    else
-                    {
-                    }
+                    Imgloader imgl = new Imgloader("woman.png");
+                    UserImg.Source = imgl.Load();
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show(ex.ToString());
+                    Imgloader imgl = new Imgloader("man.png");
+                    UserImg.Source = imgl.Load();
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) { MessageBox.Show(ex.ToString()); }
         }
 
         private void Cancel(object sender, RoutedEventArgs e)
