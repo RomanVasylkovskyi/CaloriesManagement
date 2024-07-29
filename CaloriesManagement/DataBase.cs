@@ -314,8 +314,137 @@ namespace CaloriesManagement
            
         }
 
+        /// <summary>
+        /// Dish
+        /// </summary>
+
+        public void AddDish(string dishName)
+        {
+            string query = "INSERT INTO Dishes (Name) VALUES (@Name)";
+            var parameters = new Dictionary<string, object> { { "@Name", dishName } };
+            ExecuteNonQuery(query, parameters);
+        }
+
+        public void AddIngredientToDish(int dishId, int ingredientId, double quantity)
+        {
+            string query = "INSERT INTO DishIngredients (DishId, IngredientId, Quantity) VALUES (@DishId, @IngredientId, @Quantity)";
+            var parameters = new Dictionary<string, object>
+    {
+        { "@DishId", dishId },
+        { "@IngredientId", ingredientId },
+        { "@Quantity", quantity }
+    };
+            ExecuteNonQuery(query, parameters);
+        }
+
+        public List<Dish> GetAllDishes()
+        {
+            List<Dish> dishes = new List<Dish>();
+            string query = "SELECT * FROM Dishes";
+            DataTable result = ExecuteQuery(query);
+
+            foreach (DataRow row in result.Rows)
+            {
+                int id = Convert.ToInt32(row["Id"]);
+                string name = row["Name"].ToString();
+                Dish dish = new Dish(id, name);
+                dish.Ingredients = GetDishIngredients(id);
+                dishes.Add(dish);
+            }
+            return dishes;
+        }
+
+        private List<DishIngredient> GetDishIngredients(int dishId)
+        {
+            List<DishIngredient> dishIngredients = new List<DishIngredient>();
+            string query = @"
+                SELECT di.IngredientId, di.Quantity, i.Name, i.CaloriesPer100g 
+                FROM DishIngredients di
+                JOIN Ingredients i ON di.IngredientId = i.Id
+                WHERE di.DishId = @DishId";
+            var parameters = new Dictionary<string, object> { { "@DishId", dishId } };
+            DataTable result = ExecuteQuery(query, parameters);
+
+            foreach (DataRow row in result.Rows)
+            {
+                int ingredientId = Convert.ToInt32(row["IngredientId"]);
+                double quantity = Convert.ToDouble(row["Quantity"]);
+                string name = row["Name"].ToString();
+                int caloriesPer100g = Convert.ToInt32(row["CaloriesPer100g"]);
+
+                Ingredient ingredient = new Ingredient(ingredientId, name, caloriesPer100g);
+                dishIngredients.Add(new DishIngredient(ingredient, quantity));
+            }
+            return dishIngredients;
+        }
+
+        public Dish GetDishById(int id)
+        {
+            string query = "SELECT * FROM Dishes WHERE Id = @Id";
+            var parameters = new Dictionary<string, object> { { "@Id", id } };
+            DataTable result = ExecuteQuery(query, parameters);
+
+            if (result.Rows.Count > 0)
+            {
+                DataRow row = result.Rows[0];
+                string name = row["Name"].ToString();
+                Dish dish = new Dish(id, name);
+                dish.Ingredients = GetDishIngredients(id);
+                return dish;
+            }
+            return null;
+        }
+
+        public void UpdateDish(Dish dish)
+        {
+            string updateDishQuery = "UPDATE Dishes SET Name = @Name WHERE Id = @Id";
+            var dishParameters = new Dictionary<string, object>
+    {
+        { "@Id", dish.Id },
+        { "@Name", dish.Name }
+    };
+            ExecuteNonQuery(updateDishQuery, dishParameters);
+            string deleteIngredientsQuery = "DELETE FROM DishIngredients WHERE DishId = @DishId";
+            var deleteParameters = new Dictionary<string, object> { { "@DishId", dish.Id } };
+            ExecuteNonQuery(deleteIngredientsQuery, deleteParameters);
+            foreach (var ingredient in dish.Ingredients)
+            {
+                AddIngredientToDish(dish.Id, ingredient.Ingredient.Id, ingredient.Quantity);
+            }
+        }
+
+        public void DeleteDish(int id)
+        {
+            string deleteIngredientsQuery = "DELETE FROM DishIngredients WHERE DishId = @DishId";
+            var deleteIngParameters = new Dictionary<string, object> { { "@DishId", id } };
+            ExecuteNonQuery(deleteIngredientsQuery, deleteIngParameters);
+            string deleteDishQuery = "DELETE FROM Dishes WHERE Id = @Id";
+            var deleteDishParameters = new Dictionary<string, object> { { "@Id", id } };
+            ExecuteNonQuery(deleteDishQuery, deleteDishParameters);
+        }
 
 
+
+        public int GetNewDishId()
+        {
+            string query = "SELECT MAX(Id) FROM Dishes";
+            DataTable result = ExecuteQuery(query);
+
+            if (result.Rows.Count > 0 && result.Rows[0][0] != DBNull.Value)
+            {
+                int maxId = Convert.ToInt32(result.Rows[0][0]);
+                return maxId + 1;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
+
+
+
+        ///////////////////////////////
         public void Dispose()
         {
             Dispose(true);

@@ -92,11 +92,11 @@ namespace CaloriesManagement
             settings.ShowDialog();
         }
 
-        private void OpenMealMenu(object sender, RoutedEventArgs e)
+        private void OpenDishMenu(object sender, RoutedEventArgs e)
         {
-            Settings settings = new Settings();
-            settings.Closed += (s, args) => refreshInfo();
-            settings.ShowDialog();
+            DishListMenu dishListMenu = new DishListMenu();
+            dishListMenu.Closed += (s, args) => refreshInfo();
+            dishListMenu.ShowDialog();
         }
 
         private void OpenIngredientsMenu(object sender, RoutedEventArgs e)
