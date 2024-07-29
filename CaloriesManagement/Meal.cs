@@ -6,24 +6,20 @@ namespace CaloriesManagement
     class Meal
     {
         public string Name { get; set; }
-        public string Photo { get; set; } 
-        public List<string> Ingredients { get; set; } 
-        public List<FoodItem> FoodItems { get; set; }
+        public List<Ingredient> Ingredients { get; set; } 
 
         public Meal(string name)
         {
             Name = name;
-            Photo = string.Empty; 
-            Ingredients = new List<string>(); 
-            FoodItems = new List<FoodItem>();
+            Ingredients = new List<Ingredient>(); 
         }
 
-        public void AddFoodItem(FoodItem foodItem)
+        public void AddFoodItem(Ingredient foodItem)
         {
-            FoodItems.Add(foodItem);
+            Ingredients.Add(foodItem);
         }
 
-        public void AddIngredient(string ingredient)
+        public void AddIngredient(Ingredient ingredient)
         {
             Ingredients.Add(ingredient);
         }
@@ -31,23 +27,12 @@ namespace CaloriesManagement
         public double CalculateTotalCalories()
         {
             double totalCalories = 0;
-            foreach (var item in FoodItems)
+            foreach (var item in Ingredients)
             {
-                totalCalories += item.Calories;
+                totalCalories += item.CaloriesPer100g;
             }
             return totalCalories;
         }
     }
 
-    class FoodItem
-    {
-        public string Name { get; set; }
-        public double Calories { get; set; }
-
-        public FoodItem(string name, double calories)
-        {
-            Name = name;
-            Calories = calories;
-        }
-    }
 }

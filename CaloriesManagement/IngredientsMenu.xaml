@@ -1,0 +1,21 @@
+﻿<Window x:Class="CaloriesManagement.IngredientsMenu"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CaloriesManagement"
+        mc:Ignorable="d"
+        Title="Settings" Height="750" Width="450" ResizeMode="NoResize">
+
+    <Grid>
+        <Button Content="ADD+" HorizontalAlignment="Left" Height="44" Margin="350,25,0,0" VerticalAlignment="Top" Width="63" RenderTransformOrigin="1.119,0.467" Click="Add_Ingredient"/>
+        <Button Content="Back" HorizontalAlignment="Center" Height="36" Margin="0,650,0,0" VerticalAlignment="Top" Width="342" Click="Back" />
+        <ListView  Name="ListView" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="50,100,50,150" SelectionChanged="ListView_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid >
+</Window>

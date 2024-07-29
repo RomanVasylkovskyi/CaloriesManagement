@@ -65,7 +65,7 @@
             </Label.RenderTransform>
         </Label>
         <Button Content="Settings" HorizontalAlignment="Left" Height="51" Margin="22.5,650,0,0" VerticalAlignment="Top" Width="120" Click="SettingsMenu"/>
-        <Button Content="Button" HorizontalAlignment="Left" Height="51" Margin="165.5,650,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Button" HorizontalAlignment="Left" Height="51" Margin="307.5,650,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Meal" HorizontalAlignment="Left" Height="51" Margin="165.5,650,0,0" VerticalAlignment="Top" Width="120" Click="OpenMealMenu"/>
+        <Button Content="Ingredients" HorizontalAlignment="Left" Height="51" Margin="307.5,650,0,0" VerticalAlignment="Top" Width="120" Click="OpenIngredientsMenu"/>
     </Grid>
 </Window>

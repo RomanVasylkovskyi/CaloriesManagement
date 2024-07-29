@@ -91,5 +91,19 @@ namespace CaloriesManagement
             settings.Closed += (s, args) => refreshInfo();
             settings.ShowDialog();
         }
+
+        private void OpenMealMenu(object sender, RoutedEventArgs e)
+        {
+            Settings settings = new Settings();
+            settings.Closed += (s, args) => refreshInfo();
+            settings.ShowDialog();
+        }
+
+        private void OpenIngredientsMenu(object sender, RoutedEventArgs e)
+        {
+            IngredientsMenu settings = new IngredientsMenu();
+            settings.Closed += (s, args) => refreshInfo();
+            settings.ShowDialog();
+        }
     }
 }

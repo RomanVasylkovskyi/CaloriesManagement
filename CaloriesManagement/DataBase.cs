@@ -21,6 +21,7 @@ namespace CaloriesManagement
             InitializeDatabase();
             CreateTables();
             DefaultUser();
+            DefaultIngredients();
         }
 
         private void InitializeDatabase()
@@ -186,6 +187,93 @@ namespace CaloriesManagement
             }
            
         }
+        /// <summary>
+        /// Ingredients
+        /// </summary>
+        public void DefaultIngredients()
+        {
+            AddOrUpdateIngredient(new Ingredient("Tomato", 150));
+            AddOrUpdateIngredient(new Ingredient("apple", 75));
+            AddOrUpdateIngredient(new Ingredient("banana", 100));
+            AddOrUpdateIngredient(new Ingredient("blueberry", 50));
+        }
+        public void AddIngredient(Ingredient ingredient)
+        {
+            string insertQuery = "INSERT INTO Ingredients (Name, CaloriesPer100g) VALUES (@Name, @CaloriesPer100g)";
+            var parameters = new Dictionary<string, object>
+            {
+                { "@Name", ingredient.Name },
+                { "@CaloriesPer100g", ingredient.CaloriesPer100g }
+            };
+            ExecuteNonQuery(insertQuery, parameters);
+        }
+
+        public void AddOrUpdateIngredient(Ingredient ingredient)
+        {
+            string checkQuery = "SELECT Id FROM Ingredients WHERE Name = @Name";
+            var checkParameters = new Dictionary<string, object> { { "@Name", ingredient.Name } };
+
+            DataTable result = ExecuteQuery(checkQuery, checkParameters);
+
+            if (result.Rows.Count > 0)
+            {
+                int id = Convert.ToInt32(result.Rows[0]["Id"]);
+                string updateQuery = "UPDATE Ingredients SET CaloriesPer100g = @CaloriesPer100g WHERE Id = @Id";
+                var updateParameters = new Dictionary<string, object>
+        {
+            { "@CaloriesPer100g", ingredient.CaloriesPer100g },
+            { "@Id", id }
+        };
+                ExecuteNonQuery(updateQuery, updateParameters);
+            }
+            else
+            {
+               AddIngredient(ingredient);
+            }
+        }
+
+
+        public List<Ingredient> GetAllIngredients()
+        {
+            List<Ingredient> ingredients = new List<Ingredient>();
+            string query = "SELECT * FROM Ingredients";
+
+            DataTable result = ExecuteQuery(query);
+
+            foreach (DataRow row in result.Rows)
+            {
+                int id = Convert.ToInt32(row["Id"]);
+                string name = row["Name"].ToString();
+                int caloriesPer100g = Convert.ToInt32(row["CaloriesPer100g"]);
+                Ingredient tmp = new Ingredient(name, caloriesPer100g);
+                tmp.Id = id;
+                ingredients.Add(tmp);
+            }
+            return ingredients;
+        }
+
+        public Ingredient GetIngredientById(int id)
+        {
+            string query = "SELECT * FROM Ingredients WHERE Id = @Id";
+            var parameters = new Dictionary<string, object> { { "@Id", id } };
+
+            DataTable result = ExecuteQuery(query, parameters);
+
+            if (result.Rows.Count > 0)
+            {
+                DataRow row = result.Rows[0];
+                string name = row["Name"].ToString();
+                int caloriesPer100g = Convert.ToInt32(row["CaloriesPer100g"]);
+                Ingredient tmp = new Ingredient(name, caloriesPer100g);
+                tmp.Id = id;
+                return tmp;
+            }
+
+            return null;
+        }
+
+
+
 
 
         public void Dispose()
