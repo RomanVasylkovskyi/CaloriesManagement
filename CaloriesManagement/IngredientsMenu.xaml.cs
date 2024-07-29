@@ -15,9 +15,7 @@ using System.Windows.Shapes;
 
 namespace CaloriesManagement
 {
-    /// <summary>
-    /// Interaction logic for IngredientsMenu.xaml
-    /// </summary>
+
     public partial class IngredientsMenu : Window
     {
         private Database database;
@@ -30,13 +28,14 @@ namespace CaloriesManagement
         private void LoadIngredients()
         {
             List<Ingredient> ingredients =  database.GetAllIngredients();
-
             ListView.ItemsSource = ingredients;
         }
 
         private void Add_Ingredient(object sender, RoutedEventArgs e)
         {
-
+            IngredientForm ingredient = new IngredientForm();
+            ingredient.Closed += (s, args) => LoadIngredients();
+            ingredient.ShowDialog();
         }
 
         private void Back(object sender, RoutedEventArgs e)
@@ -44,12 +43,13 @@ namespace CaloriesManagement
             this.Close();
         }
 
-        // Метод для обробки події SelectionChanged
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ListView.SelectedItem is Ingredient selectedIngredient)
             {
-                MessageBox.Show(selectedIngredient.ToString());
+                IngredientForm ingredient = new IngredientForm(selectedIngredient);
+                ingredient.Closed += (s, args) => LoadIngredients();
+                ingredient.ShowDialog();
             }
             
         }

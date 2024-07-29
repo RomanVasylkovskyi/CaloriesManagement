@@ -5,13 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaloriesManagement"
         mc:Ignorable="d"
-        Title="IngredientForm" Height="750" Width="450" ResizeMode="NoResize">
+        Title="IngredientForm" Height="300" Width="400" ResizeMode="NoResize">
 
     <Grid>
-        <Image HorizontalAlignment="Center" Height="250" VerticalAlignment="Top"  Width="250" Source="/unknown.png" Margin="0,50,0,0"/>
-        <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="Name" VerticalAlignment="Top" Width="274" Height="35" Margin="0,391,0,0"/>
-        <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="Calories" VerticalAlignment="Top" Width="50" Height="34" Margin="0,473,0,0"/>
-        <Button Content="Save" HorizontalAlignment="Left" Height="51" Margin="65,650,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Cancel" HorizontalAlignment="Left" Height="51" Margin="280,650,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="IngredientNameText" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="Name" VerticalAlignment="Top" Width="274" Height="35" Margin="0,50,0,0"/>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="19,55,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="IngredientCaloriesText" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="Calories" VerticalAlignment="Top" Width="50" Height="34" Margin="0,100,0,0"/>
+        <Label  Content="Calories/100g :" HorizontalAlignment="Left" Margin="79,99,0,0" VerticalAlignment="Top" Width="91"/>
+        <Button Content="Save" HorizontalAlignment="Left" Height="51" Margin="63,175,0,0" VerticalAlignment="Top" Width="120" Click="Save"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Height="51" Margin="217,175,0,0" VerticalAlignment="Top" Width="120" Click="Cancel"/>
+        <Button Content="Del" HorizontalAlignment="Left" Margin="345,10,0,0" VerticalAlignment="Top"  Width="30" Height="30" Click="Delete" RenderTransformOrigin="-0.288,0.54"/>
     </Grid >
 </Window>

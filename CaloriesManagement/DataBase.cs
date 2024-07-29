@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace CaloriesManagement
 {
@@ -21,7 +22,7 @@ namespace CaloriesManagement
             InitializeDatabase();
             CreateTables();
             DefaultUser();
-            DefaultIngredients();
+            //DefaultIngredients();
         }
 
         private void InitializeDatabase()
@@ -185,17 +186,17 @@ namespace CaloriesManagement
             {
                 MessageBox.Show(ex.ToString());
             }
-           
         }
+
         /// <summary>
         /// Ingredients
         /// </summary>
         public void DefaultIngredients()
         {
-            AddOrUpdateIngredient(new Ingredient("Tomato", 150));
-            AddOrUpdateIngredient(new Ingredient("apple", 75));
-            AddOrUpdateIngredient(new Ingredient("banana", 100));
-            AddOrUpdateIngredient(new Ingredient("blueberry", 50));
+            AddOrUpdateIngredient(new Ingredient(1,"Tomato", 150));
+            AddOrUpdateIngredient(new Ingredient(2,"apple", 75));
+            AddOrUpdateIngredient(new Ingredient(3,"banana", 100));
+            AddOrUpdateIngredient(new Ingredient(4,"blueberry", 50));
         }
         public void AddIngredient(Ingredient ingredient)
         {
@@ -208,27 +209,38 @@ namespace CaloriesManagement
             ExecuteNonQuery(insertQuery, parameters);
         }
 
-        public void AddOrUpdateIngredient(Ingredient ingredient)
+        public void AddOrUpdateIngredient(Ingredient ingredient, Ingredient newIngredient = null)
         {
-            string checkQuery = "SELECT Id FROM Ingredients WHERE Name = @Name";
-            var checkParameters = new Dictionary<string, object> { { "@Name", ingredient.Name } };
-
-            DataTable result = ExecuteQuery(checkQuery, checkParameters);
-
-            if (result.Rows.Count > 0)
+            if (newIngredient != null)
             {
-                int id = Convert.ToInt32(result.Rows[0]["Id"]);
-                string updateQuery = "UPDATE Ingredients SET CaloriesPer100g = @CaloriesPer100g WHERE Id = @Id";
+                string updateQuery = "UPDATE Ingredients SET Name = @Name, CaloriesPer100g = @CaloriesPer100g WHERE Id = @Id";
                 var updateParameters = new Dictionary<string, object>
         {
-            { "@CaloriesPer100g", ingredient.CaloriesPer100g },
-            { "@Id", id }
+            { "@Id", ingredient.Id },
+            { "@Name", newIngredient.Name },
+            { "@CaloriesPer100g", newIngredient.CaloriesPer100g }
         };
                 ExecuteNonQuery(updateQuery, updateParameters);
+
+                string checkQuery = "SELECT Id FROM Ingredients WHERE Id = @Id";
+                var checkParameters = new Dictionary<string, object> { { "@Id", ingredient.Id } };
+                DataTable result = ExecuteQuery(checkQuery, checkParameters);
+
+                if (result.Rows.Count == 0)
+                {
+                    AddIngredient(newIngredient);
+                }
             }
             else
             {
-               AddIngredient(ingredient);
+                string checkQuery = "SELECT Id FROM Ingredients WHERE Id = @Id";
+                var checkParameters = new Dictionary<string, object> { { "@Id", ingredient.Id } };
+                DataTable result = ExecuteQuery(checkQuery, checkParameters);
+
+                if (result.Rows.Count == 0)
+                {
+                    AddIngredient(ingredient);
+                }
             }
         }
 
@@ -245,8 +257,7 @@ namespace CaloriesManagement
                 int id = Convert.ToInt32(row["Id"]);
                 string name = row["Name"].ToString();
                 int caloriesPer100g = Convert.ToInt32(row["CaloriesPer100g"]);
-                Ingredient tmp = new Ingredient(name, caloriesPer100g);
-                tmp.Id = id;
+                Ingredient tmp = new Ingredient(id,name, caloriesPer100g);
                 ingredients.Add(tmp);
             }
             return ingredients;
@@ -264,8 +275,7 @@ namespace CaloriesManagement
                 DataRow row = result.Rows[0];
                 string name = row["Name"].ToString();
                 int caloriesPer100g = Convert.ToInt32(row["CaloriesPer100g"]);
-                Ingredient tmp = new Ingredient(name, caloriesPer100g);
-                tmp.Id = id;
+                Ingredient tmp = new Ingredient(id,name, caloriesPer100g);
                 return tmp;
             }
 
@@ -273,6 +283,36 @@ namespace CaloriesManagement
         }
 
 
+        public int GetNewIngredientId()
+        {
+            string query = "SELECT MAX(Id) FROM Ingredients";
+            DataTable result = ExecuteQuery(query);
+
+            if (result.Rows.Count > 0 && result.Rows[0][0] != DBNull.Value)
+            {
+                int maxId = Convert.ToInt32(result.Rows[0][0]);
+                return maxId + 1;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+        public void DeleteIngredientById(int id)
+        {
+            string query = "DELETE FROM Ingredients WHERE Id = @Id";
+            var parameters = new Dictionary<string, object> { { "@Id", id } };
+            try
+            {
+                ExecuteNonQuery(query, parameters);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+        }
 
 
 

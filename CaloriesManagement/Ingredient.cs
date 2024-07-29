@@ -12,15 +12,16 @@ namespace CaloriesManagement
         public string Name { get; set; }
         public int CaloriesPer100g { get; set; }
 
-        public Ingredient( string name, int caloriesPer100g)
+        public Ingredient(int id, string name, int caloriesPer100g)
         {
+            Id = id;
             Name = name;
             CaloriesPer100g = caloriesPer100g;
         }
 
         public override string ToString()
         {
-            return $"ID: {Id}  | Name: {Name} ({CaloriesPer100g} kcal/100g)";
+            return $"ID: {Id}  | Name: {Name} ({CaloriesPer100g} cal/100g)";
         }
     }
 }
