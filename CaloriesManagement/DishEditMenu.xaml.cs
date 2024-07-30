@@ -39,18 +39,52 @@ namespace CaloriesManagement
         private void LoadDish()
         {
             NameText.Text = _dish.Name;
-            TotalCaloriesText.Content = _dish.Calories;
+            CaloriesText.Text = _dish.Calories.ToString();
+            DescriptionText.Text = _dish.Description;
         }
-
        
         private void DeleteDish(object sender, RoutedEventArgs e)
         {
-
+            if (_dish.Id != -1) { 
+                _database.DeleteDish(_dish.Id);
+            }
+            this.Close();
         }
         private void Save(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            bool isValid = true;
+            string errorMessage = "";
+
+
+            if (string.IsNullOrWhiteSpace(NameText.Text))
+            {
+                isValid = false;
+                errorMessage += "Ім'я не може бути порожнім.\n";
+            }
+
+            if (!int.TryParse(CaloriesText.Text, out int caloriesPer100g) || caloriesPer100g < 0)
+            {
+                isValid = false;
+                errorMessage += "Введіть коректне значення калорій (невід'ємне число).\n";
+            }
+            if (isValid)
+            {
+                    Dish dish = new Dish(_dish.Id, NameText.Text, caloriesPer100g, DescriptionText.Text);
+                if (_dish.Id != _database.GetNewDishId())
+                {
+                    _database.UpdateDish(dish);
+                }
+                else {
+                    _database.AddDish(dish);
+                }
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(errorMessage, "Помилка введення даних", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
 
         private void Cancel(object sender, RoutedEventArgs e)
         {

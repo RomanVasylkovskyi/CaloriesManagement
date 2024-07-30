@@ -23,6 +23,9 @@ namespace CaloriesManagement
             CreateTables();
             DefaultUser();
             //DefaultIngredients();
+            //AddDish(new Dish(0, "test1", 100, "ok text 1"));
+            //AddDish(new Dish(0, "test2", 200, "ok text 2"));
+            //AddDish(new Dish(0, "test3", 300, "ok text 3"));
         }
 
         private void InitializeDatabase()
@@ -314,24 +317,19 @@ namespace CaloriesManagement
         {
             string query = "INSERT INTO Dishes (Name, Calories, Description) VALUES (@Name, @Calories, @Description)";
             var parameters = new Dictionary<string, object>
-    {
-        { "@Name", dish.Name },
-        { "@Calories", dish.Calories },
-        { "@Description", dish.Description }
-    };
-            ExecuteNonQuery(query, parameters);
-        }
-
-        public void AddIngredientToDish(int dishId, int ingredientId, double quantity)
-        {
-            string query = "INSERT INTO DishIngredients (DishId, IngredientId, Quantity) VALUES (@DishId, @IngredientId, @Quantity)";
-            var parameters = new Dictionary<string, object>
-    {
-        { "@DishId", dishId },
-        { "@IngredientId", ingredientId },
-        { "@Quantity", quantity }
-    };
-            ExecuteNonQuery(query, parameters);
+            {
+                { "@Name", dish.Name },
+                { "@Calories", dish.Calories },
+                { "@Description", dish.Description }
+            };
+            try
+            {
+                ExecuteNonQuery(query, parameters);
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show($"Error adding dish: {ex.Message}");
+            }
         }
 
         public List<Dish> GetAllDishes()
@@ -382,39 +380,9 @@ namespace CaloriesManagement
 
         public void DeleteDish(int id)
         {
-            // Спочатку видаляємо зв'язки з інгредієнтами
-            string deleteIngredientsQuery = "DELETE FROM DishIngredients WHERE DishId = @Id";
-            var deleteIngParameters = new Dictionary<string, object> { { "@Id", id } };
-            ExecuteNonQuery(deleteIngredientsQuery, deleteIngParameters);
-
-            // Потім видаляємо саму страву
             string deleteDishQuery = "DELETE FROM Dishes WHERE Id = @Id";
             var deleteDishParameters = new Dictionary<string, object> { { "@Id", id } };
             ExecuteNonQuery(deleteDishQuery, deleteDishParameters);
-        }
-
-        // Додатковий метод для отримання інгредієнтів страви
-        public List<Ingredient> GetDishIngredients(int dishId)
-        {
-            List<Ingredient> ingredients = new List<Ingredient>();
-            string query = @"
-        SELECT i.Id, i.Name, i.CaloriesPer100g, di.Quantity 
-        FROM Ingredients i
-        JOIN DishIngredients di ON i.Id = di.IngredientId
-        WHERE di.DishId = @DishId";
-            var parameters = new Dictionary<string, object> { { "@DishId", dishId } };
-            DataTable result = ExecuteQuery(query, parameters);
-            foreach (DataRow row in result.Rows)
-            {
-                int id = Convert.ToInt32(row["Id"]);
-                string name = row["Name"].ToString();
-                int caloriesPer100g = Convert.ToInt32(row["CaloriesPer100g"]);
-                double quantity = Convert.ToDouble(row["Quantity"]);
-                Ingredient ingredient = new Ingredient(id, name, caloriesPer100g);
-                // Тут ви можете додати властивість Quantity до класу Ingredient, якщо потрібно
-                ingredients.Add(ingredient);
-            }
-            return ingredients;
         }
 
         public int GetNewDishId()
@@ -432,9 +400,6 @@ namespace CaloriesManagement
                 return 1;
             }
         }
-
-
-
 
         ///////////////////////////////
         public void Dispose()

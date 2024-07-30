@@ -21,5 +21,12 @@ namespace CaloriesManagement
             Calories = caolries;
             Description = description;
         }
+
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Name: {Name}, Calories: {Calories}";
+        }
+
     }
 }

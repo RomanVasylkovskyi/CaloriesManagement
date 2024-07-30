@@ -14,10 +14,11 @@
         </Grid.RowDefinitions>
         <Label Content="Name" HorizontalAlignment="Left" Margin="40,48,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.395,-1.193"/>
         <TextBox Name="NameText" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Width="274" Height="35" Margin="0,44,0,0"/>
+        <TextBox Name="CaloriesText" HorizontalAlignment="Left" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Width="100" Height="35" Margin="240,105,0,0"/>
         <Label Content="Total Calories:" HorizontalAlignment="Left" Margin="134,105,0,0" VerticalAlignment="Top" Width="86" Height="35"/>
-        <Label Name="TotalCaloriesText" Content="" HorizontalAlignment="Left" Margin="225,105,0,0" VerticalAlignment="Top" Width="75" Height="35"/>
+        <Button  Content="Del" HorizontalAlignment="Left" Margin="374,10,0,0" VerticalAlignment="Top" Click="DeleteDish" Width="35"/>
         <Button Content="Save" HorizontalAlignment="Left" Height="51" Margin="65,45,0,0" VerticalAlignment="Top" Width="120" Click="Save" Grid.Row="1"/>
         <Button Content="Cancel" HorizontalAlignment="Left" Height="51" Margin="280,45,0,0" VerticalAlignment="Top" Width="120" Click="Cancel" Grid.Row="1"/>
-        <Button  Content="Del" HorizontalAlignment="Left" Margin="374,10,0,0" VerticalAlignment="Top" Click="DeleteDish" Width="35"/>
+        <TextBox x:Name="DescriptionText" HorizontalAlignment="Left" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Width="335" Height="408" Margin="65,187,0,0"/>
     </Grid >
 </Window>

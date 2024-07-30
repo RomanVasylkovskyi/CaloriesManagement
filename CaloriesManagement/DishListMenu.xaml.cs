@@ -44,11 +44,11 @@ namespace CaloriesManagement
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ListView.SelectedItem is Ingredient selectedIngredient)
+            if (ListView.SelectedItem is Dish selectedIngredient)
             {
-                //IngredientForm ingredient = new IngredientForm(selectedIngredient);
-                //ingredient.Closed += (s, args) => LoadIngredients();
-                //ingredient.ShowDialog();
+                DishEditMenu dishEditMenu = new DishEditMenu(selectedIngredient);
+                dishEditMenu.Closed += (s, args) => LoadDishes();
+                dishEditMenu.ShowDialog();
             }
 
         }
