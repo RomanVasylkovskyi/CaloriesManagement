@@ -105,5 +105,14 @@ namespace CaloriesManagement
             settings.Closed += (s, args) => refreshInfo();
             settings.ShowDialog();
         }
+
+        private void DailyCaloriesInfo(object sender, RoutedEventArgs e)
+        {
+            double CaloriesPerDay = _user.CalculateBMR();
+            string text = $"Для підтримки ваги потрібно споживати {CaloriesPerDay:F2} калорій на день.\n" +
+                   $"Для схуднення потрібно споживати {CaloriesPerDay-500:F2} калорій на день.\n" +
+                   $"Для набору ваги потрібно споживати {CaloriesPerDay + 500:F2} калорій на день.";
+            MessageBox.Show(text);
+        }
     }
 }

@@ -67,17 +67,6 @@ namespace CaloriesManagement
             }
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //if (ListView.SelectedItem is Ingredient selectedIngredient)
-            //{
-            //    //IngredientForm ingredient = new IngredientForm(selectedIngredient);
-            //    //ingredient.Closed += (s, args) => LoadIngredients();
-            //    //ingredient.ShowDialog();
-            //}
-
-        }
-
         private void Delete(object sender, RoutedEventArgs e)
         {
             _database.DeleteIngredientById(Ingredient.Id);

@@ -64,6 +64,18 @@ namespace CaloriesManagement
             return Colors.Red;
         }
 
+        public double CalculateBMR()
+        {
+            if (Gender == 1) 
+            {
+                return 88.362 + (13.397 * Weight) + (4.799 * Height) - (5.677 * Age);
+            }
+            else
+            {
+                return 447.593 + (9.247 * Weight) + (3.098 * Height) - (4.330 * Age);
+            }
+        }
+
         public override string ToString()
         {
             return $"Id: {Id}\n" +

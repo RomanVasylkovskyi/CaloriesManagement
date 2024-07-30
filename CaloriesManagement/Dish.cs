@@ -6,34 +6,20 @@ using System.Threading.Tasks;
 
 namespace CaloriesManagement
 {
+
     public class Dish
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<DishIngredient> Ingredients { get; set; }
+        public int Calories { get; set; }
+        public string Description { get; set; }
 
-        public Dish(int id, string name)
+        public Dish(int id, string name,int caolries,string description)
         {
             Id = id;
             Name = name;
-            Ingredients = new List<DishIngredient>();
-        }
-
-        public double CalculateTotalCalories()
-        {
-            return Ingredients.Sum(di => di.Ingredient.CaloriesPer100g * di.Quantity / 100);
-        }
-    }
-
-    public class DishIngredient
-    {
-        public Ingredient Ingredient { get; set; }
-        public double Quantity { get; set; }
-
-        public DishIngredient(Ingredient ingredient, double quantity)
-        {
-            Ingredient = ingredient;
-            Quantity = quantity;
+            Calories = caolries;
+            Description = description;
         }
     }
 }

@@ -53,7 +53,7 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <ProgressBar x:Name="ProgressBarElement" HorizontalAlignment="Center" Height="32" Margin="0,408,0,0" VerticalAlignment="Top" Width="350"/>
+        <ProgressBar x:Name="ProgressBarElement" HorizontalAlignment="Left" Height="32" Margin="22,408,0,0" VerticalAlignment="Top" Width="350"/>
         <Label x:Name="ProgressBarText" Content="Label" HorizontalAlignment="Center" Margin="0,445,0,0" VerticalAlignment="Top" Height="31" Width="200" FontSize="14" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Center">
             <Label.RenderTransform>
                 <TransformGroup>
@@ -67,5 +67,6 @@
         <Button Content="Settings" HorizontalAlignment="Left" Height="51" Margin="22.5,650,0,0" VerticalAlignment="Top" Width="120" Click="SettingsMenu"/>
         <Button Content="Dish" HorizontalAlignment="Left" Height="51" Margin="165.5,650,0,0" VerticalAlignment="Top" Width="120" Click="OpenDishMenu"/>
         <Button Content="Ingredients" HorizontalAlignment="Left" Height="51" Margin="307.5,650,0,0" VerticalAlignment="Top" Width="120" Click="OpenIngredientsMenu"/>
+        <Button Content="!" HorizontalAlignment="Left" Margin="388,404,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="DailyCaloriesInfo"/>
     </Grid>
 </Window>

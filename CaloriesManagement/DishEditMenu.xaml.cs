@@ -31,7 +31,7 @@ namespace CaloriesManagement
             }
             else
             {
-                _dish = new Dish(_database.GetNewDishId(),"");  
+                _dish = new Dish(_database.GetNewDishId(),"",-1,"");  
             }
             LoadDish();
         }
@@ -39,46 +39,10 @@ namespace CaloriesManagement
         private void LoadDish()
         {
             NameText.Text = _dish.Name;
-            TotalCaloriesText.Content = _dish.CalculateTotalCalories();
-            List<Ingredient> ingredients = _database.GetAllIngredients();
-            ListView.ItemsSource = ingredients;
-            GridView gv = ListView.View as GridView;
-            if (gv != null)
-            {
-                GridViewColumn idColumn = gv.Columns[0];
-                GridViewColumn nameColumn = gv.Columns[1];
-                GridViewColumn caloriesColumn = gv.Columns[2];
-                GridViewColumn weightColumn = gv.Columns[3];
-                idColumn.Header = "ID";
-                idColumn.DisplayMemberBinding = new Binding("Id");
-                nameColumn.Header = "Назва";
-                nameColumn.DisplayMemberBinding = new Binding("Name");
-                caloriesColumn.Header = "Калорії (на 100г)";
-                caloriesColumn.DisplayMemberBinding = new Binding("CaloriesPer100g");
-                weightColumn.Header = "Вага";
-                weightColumn.DisplayMemberBinding = new Binding("Weight");
-            }
+            TotalCaloriesText.Content = _dish.Calories;
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ListView.SelectedItem is Ingredient selectedIngredient)
-            {
-                //IngredientForm ingredient = new IngredientForm(selectedIngredient);
-                //ingredient.Closed += (s, args) => LoadIngredients();
-                //ingredient.ShowDialog();
-            }
-
-        }
-
-        private void DeleteIngredientFromDish(object sender, RoutedEventArgs e)
-        {
-
-        }
-        private void AddIngredientToDish(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
         private void DeleteDish(object sender, RoutedEventArgs e)
         {
 

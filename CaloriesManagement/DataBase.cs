@@ -107,20 +107,13 @@ namespace CaloriesManagement
             string createDishesTable = @"
             CREATE TABLE IF NOT EXISTS Dishes (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                Name TEXT NOT NULL
-            )";
-            string createDishIngredientsTable = @"
-            CREATE TABLE IF NOT EXISTS DishIngredients (
-                DishId INTEGER,
-                IngredientId INTEGER,
-                Quantity REAL,
-                FOREIGN KEY(DishId) REFERENCES Dishes(Id),
-                FOREIGN KEY(IngredientId) REFERENCES Ingredients(Id)
+                Name TEXT NOT NULL,
+                Calories INTEGER,
+                Description TEXT
             )";
             ExecuteNonQuery(createUsersTable);
             ExecuteNonQuery(createIngredientsTable);
             ExecuteNonQuery(createDishesTable);
-            ExecuteNonQuery(createDishIngredientsTable);
         }
 
         public void DefaultUser()
@@ -317,11 +310,15 @@ namespace CaloriesManagement
         /// <summary>
         /// Dish
         /// </summary>
-
-        public void AddDish(string dishName)
+        public void AddDish(Dish dish)
         {
-            string query = "INSERT INTO Dishes (Name) VALUES (@Name)";
-            var parameters = new Dictionary<string, object> { { "@Name", dishName } };
+            string query = "INSERT INTO Dishes (Name, Calories, Description) VALUES (@Name, @Calories, @Description)";
+            var parameters = new Dictionary<string, object>
+    {
+        { "@Name", dish.Name },
+        { "@Calories", dish.Calories },
+        { "@Description", dish.Description }
+    };
             ExecuteNonQuery(query, parameters);
         }
 
@@ -342,40 +339,16 @@ namespace CaloriesManagement
             List<Dish> dishes = new List<Dish>();
             string query = "SELECT * FROM Dishes";
             DataTable result = ExecuteQuery(query);
-
             foreach (DataRow row in result.Rows)
             {
                 int id = Convert.ToInt32(row["Id"]);
                 string name = row["Name"].ToString();
-                Dish dish = new Dish(id, name);
-                dish.Ingredients = GetDishIngredients(id);
+                int calories = Convert.ToInt32(row["Calories"]);
+                string description = row["Description"].ToString();
+                Dish dish = new Dish(id, name, calories, description);
                 dishes.Add(dish);
             }
             return dishes;
-        }
-
-        private List<DishIngredient> GetDishIngredients(int dishId)
-        {
-            List<DishIngredient> dishIngredients = new List<DishIngredient>();
-            string query = @"
-                SELECT di.IngredientId, di.Quantity, i.Name, i.CaloriesPer100g 
-                FROM DishIngredients di
-                JOIN Ingredients i ON di.IngredientId = i.Id
-                WHERE di.DishId = @DishId";
-            var parameters = new Dictionary<string, object> { { "@DishId", dishId } };
-            DataTable result = ExecuteQuery(query, parameters);
-
-            foreach (DataRow row in result.Rows)
-            {
-                int ingredientId = Convert.ToInt32(row["IngredientId"]);
-                double quantity = Convert.ToDouble(row["Quantity"]);
-                string name = row["Name"].ToString();
-                int caloriesPer100g = Convert.ToInt32(row["CaloriesPer100g"]);
-
-                Ingredient ingredient = new Ingredient(ingredientId, name, caloriesPer100g);
-                dishIngredients.Add(new DishIngredient(ingredient, quantity));
-            }
-            return dishIngredients;
         }
 
         public Dish GetDishById(int id)
@@ -383,47 +356,66 @@ namespace CaloriesManagement
             string query = "SELECT * FROM Dishes WHERE Id = @Id";
             var parameters = new Dictionary<string, object> { { "@Id", id } };
             DataTable result = ExecuteQuery(query, parameters);
-
             if (result.Rows.Count > 0)
             {
                 DataRow row = result.Rows[0];
                 string name = row["Name"].ToString();
-                Dish dish = new Dish(id, name);
-                dish.Ingredients = GetDishIngredients(id);
-                return dish;
+                int calories = Convert.ToInt32(row["Calories"]);
+                string description = row["Description"].ToString();
+                return new Dish(id, name, calories, description);
             }
             return null;
         }
 
         public void UpdateDish(Dish dish)
         {
-            string updateDishQuery = "UPDATE Dishes SET Name = @Name WHERE Id = @Id";
+            string updateDishQuery = "UPDATE Dishes SET Name = @Name, Calories = @Calories, Description = @Description WHERE Id = @Id";
             var dishParameters = new Dictionary<string, object>
     {
         { "@Id", dish.Id },
-        { "@Name", dish.Name }
+        { "@Name", dish.Name },
+        { "@Calories", dish.Calories },
+        { "@Description", dish.Description }
     };
             ExecuteNonQuery(updateDishQuery, dishParameters);
-            string deleteIngredientsQuery = "DELETE FROM DishIngredients WHERE DishId = @DishId";
-            var deleteParameters = new Dictionary<string, object> { { "@DishId", dish.Id } };
-            ExecuteNonQuery(deleteIngredientsQuery, deleteParameters);
-            foreach (var ingredient in dish.Ingredients)
-            {
-                AddIngredientToDish(dish.Id, ingredient.Ingredient.Id, ingredient.Quantity);
-            }
         }
 
         public void DeleteDish(int id)
         {
-            string deleteIngredientsQuery = "DELETE FROM DishIngredients WHERE DishId = @DishId";
-            var deleteIngParameters = new Dictionary<string, object> { { "@DishId", id } };
+            // Спочатку видаляємо зв'язки з інгредієнтами
+            string deleteIngredientsQuery = "DELETE FROM DishIngredients WHERE DishId = @Id";
+            var deleteIngParameters = new Dictionary<string, object> { { "@Id", id } };
             ExecuteNonQuery(deleteIngredientsQuery, deleteIngParameters);
+
+            // Потім видаляємо саму страву
             string deleteDishQuery = "DELETE FROM Dishes WHERE Id = @Id";
             var deleteDishParameters = new Dictionary<string, object> { { "@Id", id } };
             ExecuteNonQuery(deleteDishQuery, deleteDishParameters);
         }
 
-
+        // Додатковий метод для отримання інгредієнтів страви
+        public List<Ingredient> GetDishIngredients(int dishId)
+        {
+            List<Ingredient> ingredients = new List<Ingredient>();
+            string query = @"
+        SELECT i.Id, i.Name, i.CaloriesPer100g, di.Quantity 
+        FROM Ingredients i
+        JOIN DishIngredients di ON i.Id = di.IngredientId
+        WHERE di.DishId = @DishId";
+            var parameters = new Dictionary<string, object> { { "@DishId", dishId } };
+            DataTable result = ExecuteQuery(query, parameters);
+            foreach (DataRow row in result.Rows)
+            {
+                int id = Convert.ToInt32(row["Id"]);
+                string name = row["Name"].ToString();
+                int caloriesPer100g = Convert.ToInt32(row["CaloriesPer100g"]);
+                double quantity = Convert.ToDouble(row["Quantity"]);
+                Ingredient ingredient = new Ingredient(id, name, caloriesPer100g);
+                // Тут ви можете додати властивість Quantity до класу Ingredient, якщо потрібно
+                ingredients.Add(ingredient);
+            }
+            return ingredients;
+        }
 
         public int GetNewDishId()
         {
